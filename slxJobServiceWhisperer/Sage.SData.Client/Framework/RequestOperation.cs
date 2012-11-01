@@ -1,0 +1,95 @@
+﻿// Copyright (c) Sage (UK) Limited 2010. All rights reserved.
+// This code may not be copied or used, except as set out in a written licence agreement
+// between the user and Sage (UK) Limited, which specifically permits the user to use this
+// code. Please contact Sage (UK) if you do not have such a licence. Sage will take
+// appropriate legal action against those who make unauthorised use of this code.
+
+using System;
+using System.Collections.Generic;
+using Sage.SData.Client.Atom;
+
+namespace Sage.SData.Client.Framework
+{
+    /// <summary>
+    /// Defines an operation to peform during a request.
+    /// </summary>
+    public class RequestOperation
+    {
+        private IDictionary<string, string> _form;
+        private IList<AttachedFile> _files;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="RequestOperation"/> class.
+        /// </summary>
+        public RequestOperation()
+            : this(HttpMethod.Get)
+        {
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="RequestOperation"/> class.
+        /// </summary>
+        /// <param name="method"></param>
+        public RequestOperation(HttpMethod method)
+            : this(method, null)
+        {
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="RequestOperation"/> class with
+        /// the specified <see cref="AtomEntry"/> and method.
+        /// </summary>
+        /// <param name="method">One of the <see cref="HttpMethod"/> values</param>
+        /// <param name="resource">The input resource involved in the operation.</param>
+        public RequestOperation(HttpMethod method, object resource)
+        {
+            Method = method;
+            Resource = resource;
+        }
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the method for the request.
+        /// </summary>
+        public HttpMethod Method { get; set; }
+
+        /// <summary>
+        /// Gets or sets the predicate for the request.
+        /// </summary>
+        public string Predicate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the input resource for the request.
+        /// </summary>
+        public object Resource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the input content type for the request.
+        /// </summary>
+        public MediaType? ContentType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ETag value for the request.
+        /// </summary>
+        public string ETag { get; set; }
+
+        /// <summary>
+        /// Gets the form data associated with the request.
+        /// </summary>
+        public IDictionary<string, string> Form
+        {
+            get { return _form ?? (_form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)); }
+        }
+
+        /// <summary>
+        /// Gets the files that will be attached to the request content.
+        /// </summary>
+        public IList<AttachedFile> Files
+        {
+            get { return _files ?? (_files = new List<AttachedFile>()); }
+        }
+
+        #endregion
+    }
+}
